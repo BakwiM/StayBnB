@@ -1,0 +1,2 @@
+﻿using System.ComponentModel.DataAnnotations;
+namespace Staybnb.Models; public class Review { public int Id { get; set; } public int PropertyId { get; set; } public Property? Property { get; set; } [Required] public string ReviewerId { get; set; } = ""; public ApplicationUser? Reviewer { get; set; } [Range(1, 5)] public int Rating { get; set; } [Required, MaxLength(1000)] public string Comment { get; set; } = ""; public DateTime CreatedAt { get; set; } = DateTime.UtcNow; }

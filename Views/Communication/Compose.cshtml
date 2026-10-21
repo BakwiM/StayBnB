@@ -1,0 +1,2 @@
+@model MessageVm
+<h1>Compose Message</h1><form asp-action="Compose" method="post"><label>Recipient</label><select asp-for="RecipientId">@foreach(var u in (IEnumerable<ApplicationUser>)ViewBag.Users){<option value="@u.Id">@u.Email</option>}</select><label>Subject</label><input asp-for="Subject"/><label>Message</label><textarea asp-for="Body"></textarea><button>Send</button></form>

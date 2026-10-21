@@ -1,0 +1,4 @@
+@model BookingVm
+<h1>Book this property</h1><form asp-action="Create" method="post"><input type="hidden" asp-for="PropertyId"/><div asp-validation-summary="ModelOnly" class="error"></div>
+<label asp-for="CheckIn"></label><input asp-for="CheckIn" type="date"/><label asp-for="CheckOut"></label><input asp-for="CheckOut" type="date"/><label asp-for="Travelers"></label><input asp-for="Travelers" type="number" min="1"/><button>Request Booking</button></form>
+<p>Total price is calculated as: (Price per night × nights) + cleaning fee + service fee.</p>

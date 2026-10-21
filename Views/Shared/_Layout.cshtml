@@ -1,0 +1,33 @@
+<!DOCTYPE html><html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>@ViewData["Title"] - Staybnb</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header> <a class="brand" asp-controller="Home" asp-action="Index">Staybnb</a> <nav> <a asp-controller="Home" asp-action="Index">Explore</a> @if (User.Identity?.IsAuthenticated ?? false) { if (User.IsInRole("Guest")) {
+        <a asp-controller="HostApplication" asp-action="Apply">Become a Host</a><a asp-controller="Booking" asp-action="MyBookings">My Bookings</a>
+    }
+    if (User.IsInRole("Host"))
+    {
+
+        <a asp-controller="Host" asp-action="Dashboard">Host Dashboard</a><a asp-controller="Host" asp-action="Reviews">My Reviews</a><a asp-controller="Host" asp-action="Earnings">Earnings</a>
+    }
+    if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+    {
+
+        <a asp-controller="Admin" asp-action="Dashboard">Admin</a><a asp-controller="Admin" asp-action="Logs">Logs</a>
+    }
+
+    <a asp-controller="Wishlist" asp-action="Index">Wishlist</a> <a asp-controller="Communication" asp-action="Inbox">Inbox</a> <a asp-controller="Communication" asp-action="Notifications">Notifications</a> <form asp-area="Identity" asp-page="/Account/Logout" method="post" class="inline"><button>Logout</button></form>
+} else
+{
+
+    <a asp-area="Identity" asp-page="/Account/Login">Login</a> <a asp-area="Identity" asp-page="/Account/Register">Register</a>
+}
+</nav> </header>
+<main class="container">@RenderBody()</main>
+<footer>Staybnb &copy; @DateTime.Now.Year</footer>
+</body>
+</html> 

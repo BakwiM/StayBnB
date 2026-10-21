@@ -1,0 +1,2 @@
+@model IEnumerable<Message>
+<h1>Inbox</h1><a class="btn" asp-action="Compose">New Message</a><table class="table"><tr><th>From</th><th>Subject</th><th>Message</th><th>Date</th></tr>@foreach(var m in Model){<tr><td>@m.Sender?.Email</td><td>@m.Subject</td><td>@m.Body</td><td>@m.SentAt.ToLocalTime()</td></tr>}</table>

@@ -1,0 +1,28 @@
+@model IEnumerable<Property>
+<h1>Host Dashboard</h1><p>Average Rating: @ViewBag.AverageRating / 5</p>
+<h2>Your Properties</h2>
+<div class="grid">@foreach(var p in Model){
+    <div class="card"><h3>@p.Title</h3><p>@p.City · R @p.PricePerNight.ToString("N2")/night</p><p>Status: <b>@(p.IsActive ? "Active" : "Inactive")</b></p><form asp-action="Toggle" method="post"><input type="hidden" name="id" value="@p.Id" /><button>Toggle Active</button></form> <a class="btn secondary" asp-action="CheckIn" asp-route-propertyId="@p.Id">Check-in Rules</a></div>
+}
+</div>
+<h2>Pending Booking Requests</h2><table class="table"><tr><th>Guest</th><th>Property</th><th>Dates</th><th>Total</th><th>Action</th></tr>
+@foreach(var b in (IEnumerable<Booking>)ViewBag.PendingBookings){<tr><td>@b.GuestId</td><td>@b.Property?.Title</td><td>@b.CheckIn.ToShortDateString() - @b.CheckOut.ToShortDateString()</td><td>R @b.TotalPrice.ToString("N2")</td><td><form asp-action="BookingDecision" method="post" class="inline"><input type="hidden" name="id" value="@b.Id"/><input type="hidden" name="approve" value="true"/><button>Approve</button></form> <form asp-action="BookingDecision" method="post" class="inline"><input type="hidden" name="id" value="@b.Id"/><input type="hidden" name="approve" value="false"/><button class="danger">Reject</button></form></td></tr>}</table>
+<h2>Documents Pending Verification</h2>
+<table class="table">
+    <tr><th>Guest</th><th>Property</th><th>Document</th><th>Action</th></tr>
+    @foreach (var d in (IEnumerable<GuestDocument>)ViewBag.PendingDocuments)
+    {
+        <tr>
+            <td>@d.Booking?.GuestId</td>
+            <td>@d.Booking?.Property?.Title</td>
+            <td><a href="@d.DocumentPath" target="_blank">View Document</a></td>
+            <td>
+                <form asp-action="VerifyDocument" method="post" class="inline">
+                    <input type="hidden" name="id" value="@d.Id" />
+                    <input type="hidden" name="verified" value="true" />
+                    <button>Verify</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,2 @@
+﻿ @model IEnumerable<Review> 
+ <h1>Reviews for Your Properties</h1> <table class="table"> <tr><th>Property</th><th>Guest</th><th>Rating</th><th>Comment</th><th>Date</th></tr> @foreach(var r in Model) { <tr> <td>@r.Property?.Title</td> <td>@r.Reviewer?.FullName</td> <td>@r.Rating / 5</td> <td>@r.Comment</td> <td>@r.CreatedAt.ToShortDateString()</td> </tr> } </table>

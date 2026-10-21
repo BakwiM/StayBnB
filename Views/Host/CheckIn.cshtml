@@ -1,0 +1,3 @@
+@model Property
+<h1>Check-in Process: @Model.Title</h1><form method="post"><input type="hidden" name="propertyId" value="@Model.Id"/>
+<label>Rules</label><textarea name="rules" rows="7">@Model.CheckInProcess?.Rules</textarea><label>Required documents</label><input name="requiredDocuments" value="@(Model.CheckInProcess?.RequiredDocuments ?? "ID or Passport")"/><button>Save Check-in Process</button></form>

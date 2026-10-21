@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Booking>
+<h1>Earnings</h1>
+<p>Total Earnings: R @ViewBag.TotalEarnings.ToString("N2")</p>
+<table class="table">
+    <tr><th>Property</th><th>Guest</th><th>Dates</th><th>Status</th><th>Amount</th></tr>
+    @foreach (var b in Model)
+    {
+        <tr>
+            <td>@b.Property?.Title</td>
+            <td>@b.Guest?.FullName</td>
+            <td>@b.CheckIn.ToShortDateString() - @b.CheckOut.ToShortDateString()</td>
+            <td>@b.Status</td>
+            <td>R @b.TotalPrice.ToString("N2")</td>
+        </tr>
+    }
+</table>

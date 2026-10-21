@@ -1,0 +1,2 @@
+@model IEnumerable<ApplicationUser>
+<h1>SuperAdmin: Promote Guests</h1><table class="table"><tr><th>Name</th><th>Email</th><th>Action</th></tr>@foreach(var u in Model){<tr><td>@u.FullName</td><td>@u.Email</td><td><form asp-action="Promote" method="post"><input type="hidden" name="id" value="@u.Id"/><button>Promote to Admin</button></form></td></tr>}</table>

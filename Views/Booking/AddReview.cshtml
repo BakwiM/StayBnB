@@ -1,0 +1,16 @@
+﻿@model Review
+<h1>Review: @ViewBag.PropertyTitle</h1>
+<form method="post">
+    <label>Rating (1-5)</label>
+    <select name="Rating">
+        <option value="5">5 - Excellent</option>
+        <option value="4">4 - Good</option>
+        <option value="3">3 - Okay</option>
+        <option value="2">2 - Poor</option>
+        <option value="1">1 - Terrible</option>
+    </select>
+    <label>Comment</label>
+    <textarea name="Comment" required></textarea>
+    <input type="hidden" name="PropertyId" value="@Model.PropertyId" />
+    <button type="submit">Submit Review</button>
+</form>

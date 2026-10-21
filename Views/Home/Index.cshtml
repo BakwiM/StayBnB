@@ -1,0 +1,17 @@
+@model IEnumerable<Property> 
+@{ViewData["Title"]="Explore";} <section class="hero"> 
+    @if (User.Identity?.IsAuthenticated ?? false) 
+    { <p style="font-weight:bold;font-size:1.8em;text-align:left;color:#e31c5f;">Welcome, @ViewBag.DisplayName</p> 
+    
+    } <h1>Find your next stay</h1> <p>Explore active Staybnb properties.</p> 
+    <form method="get"> <div class="grid"> <div><label>City</label><input name="city" value="@ViewBag.City" placeholder="Pretoria"/></div> 
+        <div><label>Property type</label><select name="propertyType"><option value="">All types</option><option>Apartment</option><option>House</option><option>Guesthouse</option></select></div> 
+            </div> <button>Search</button> </form> </section> <div class="grid"> 
+                   @foreach (var p in Model) 
+                   { <article class="card"> @if (p.Images.Any()) { <img class="thumb" src="@p.Images.First().ImagePath" /> 
+                   
+                   } <h2>@p.Title</h2> @if (ViewBag.WishlistedIds is HashSet<int> wl) 
+                       
+                       { <form method="post" asp-controller="Wishlist" asp-action="Toggle" asp-route-propertyId="@p.Id" style="display:inline"><button type="submit">@(wl.Contains(p.Id) ? "♥ Saved" : "♡ Save")</button></form> 
+                       
+                       } <p>@p.City · @p.PropertyType</p> <p>@(p.Reviews.Any() ? "★ " + Math.Round(p.Reviews.Average(r => r.Rating), 1) + " (" + p.Reviews.Count() + " reviews)" : "No reviews yet")</p> <p>@p.Description</p> <strong>R @p.PricePerNight.ToString("N2") / night</strong><br/><br/> <a class="btn" asp-controller="Booking" asp-action="Create" asp-route-id="@p.Id">Book</a> </article> } </div> 

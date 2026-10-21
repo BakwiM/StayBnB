@@ -1,0 +1,15 @@
+@model IEnumerable<HostApplication>
+<h1>Admin Dashboard</h1>
+<div class="grid">
+    <div class="card"><strong>Total Users</strong><p>@ViewBag.TotalUsers</p></div>
+    <div class="card"><strong>Pending Host Apps</strong><p>@ViewBag.PendingHostApps</p></div>
+    <div class="card"><strong>Active Properties</strong><p>@ViewBag.ActiveProperties</p></div>
+    <div class="card"><strong>Platform Revenue</strong><p>R @(((decimal)ViewBag.PlatformRevenue).ToString("N2"))</p></div>
+    <div class="card"><strong>Total Bookings</strong><p>@ViewBag.TotalBookings</p></div>
+    <div class="card"><strong>Approved Hosts</strong><p>@ViewBag.ApprovedHosts</p></div>
+</div>
+<h2>Host Applications</h2>
+<table class="table">
+    <tr><th>Applicant</th><th>Property</th><th>City</th><th>Status</th><th>Action</th></tr>
+@foreach(var a in Model){<tr><td>@a.Applicant?.Email</td><td>@a.Title</td><td>@a.City</td><td>@a.Status</td><td>@if(a.Status==ApplicationStatus.Pending){<form asp-action="Decide" method="post" class="inline"><input type="hidden" name="id" value="@a.Id"/><input type="hidden" name="approve" value="true"/><button>Approve</button></form> <form asp-action="Decide" method="post" class="inline"><input type="hidden" name="id" value="@a.Id"/><input type="hidden" name="approve" value="false"/><button class="danger">Reject</button></form>}</td></tr>}</table>
+@if(User.IsInRole("SuperAdmin")){<a class="btn" asp-action="Users">Manage Guests / Admins</a>}

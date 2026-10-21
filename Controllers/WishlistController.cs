@@ -1,0 +1,7 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Staybnb.Data;
+using Staybnb.Models;
+namespace Staybnb.Controllers; [Authorize] public class WishlistController : Controller { private readonly ApplicationDbContext _db; private readonly UserManager<ApplicationUser> _users; public WishlistController(ApplicationDbContext db, UserManager<ApplicationUser> users) { _db = db; _users = users; } [HttpPost, ValidateAntiForgeryToken] public async Task<IActionResult> Toggle(int propertyId) { var uid = _users.GetUserId(User)!; var existing = await _db.WishlistItems.FirstOrDefaultAsync(w => w.UserId == uid && w.PropertyId == propertyId); if (existing != null) _db.WishlistItems.Remove(existing); else _db.WishlistItems.Add(new WishlistItem { UserId = uid, PropertyId = propertyId }); await _db.SaveChangesAsync(); var referer = Request.Headers["Referer"].ToString(); return string.IsNullOrEmpty(referer) ? RedirectToAction("Index", "Home") : Redirect(referer); } public async Task<IActionResult> Index() { var uid = _users.GetUserId(User)!; var items = await _db.WishlistItems.Include(w => w.Property).ThenInclude(p => p!.Images).Where(w => w.UserId == uid).ToListAsync(); return View(items); } }

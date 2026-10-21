@@ -1,0 +1,2 @@
+@model IEnumerable<Notification>
+<h1>Notifications</h1><div class="grid">@foreach(var n in Model){<div class="card"><h3>@n.Title</h3><p>@n.Message</p><small>@n.CreatedAt.ToLocalTime()</small></div>}</div>
